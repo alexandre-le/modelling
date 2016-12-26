@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<tP3:Graphe
+    xmi:version="2.0"
+    xmlns:xmi="http://www.omg.org/XMI"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:tP3="http://www.example.org/tP3"
+    xsi:schemaLocation="http://www.example.org/tP3 tP3.ecore">
+  <relation
+      destination="//@classe.0"
+      source="//@classe.1"/>
+  <relation
+      destination="//@classe.0"
+      source="//@classe.1"/>
+  <classe name="A"/>
+  <classe name="B"/>
+</tP3:Graphe>

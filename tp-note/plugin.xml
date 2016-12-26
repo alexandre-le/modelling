@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?eclipse version="3.0"?>
+
+<!--
+-->
+
+<plugin>
+
+   <extension point="org.eclipse.emf.ecore.generated_package">
+      <!-- @generated tP3 -->
+      <package
+            uri="http://www.example.org/tP3"
+            class="tP3.TP3Package"
+            genModel="model/tP3.genmodel"/>
+   </extension>
+
+</plugin>

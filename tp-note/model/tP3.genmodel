@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<genmodel:GenModel xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore"
+    xmlns:genmodel="http://www.eclipse.org/emf/2002/GenModel" modelDirectory="/test-1/src" modelPluginID="test-1" modelName="TP3"
+    rootExtendsClass="org.eclipse.emf.ecore.impl.MinimalEObjectImpl$Container" importerID="org.eclipse.emf.importer.ecore"
+    complianceLevel="8.0" copyrightFields="false" operationReflection="true" importOrganizing="true">
+  <foreignModel>tP3.ecore</foreignModel>
+  <genPackages prefix="TP3" disposableProviderFactory="true" ecorePackage="tP3.ecore#/">
+    <genEnums typeSafeEnumCompatible="false" ecoreEnum="tP3.ecore#//Type">
+      <genEnumLiterals ecoreEnumLiteral="tP3.ecore#//Type/Association"/>
+      <genEnumLiterals ecoreEnumLiteral="tP3.ecore#//Type/Aggrégation"/>
+      <genEnumLiterals ecoreEnumLiteral="tP3.ecore#//Type/Composition"/>
+      <genEnumLiterals ecoreEnumLiteral="tP3.ecore#//Type/Héritage"/>
+    </genEnums>
+    <genClasses ecoreClass="tP3.ecore#//Graphe">
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference tP3.ecore#//Graphe/relation"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference tP3.ecore#//Graphe/classe"/>
+    </genClasses>
+    <genClasses ecoreClass="tP3.ecore#//Sommet">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute tP3.ecore#//Sommet/name"/>
+    </genClasses>
+    <genClasses ecoreClass="tP3.ecore#//Arc">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute tP3.ecore#//Arc/type"/>
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference tP3.ecore#//Arc/destination"/>
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference tP3.ecore#//Arc/source"/>
+    </genClasses>
+  </genPackages>
+</genmodel:GenModel>
