@@ -1,6 +1,7 @@
 package test;
 
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.eclipse.emf.*;
@@ -70,9 +71,10 @@ public class test {
 		return resource;
 	}
 
-	List<Sommet> listSommets = null;
-
+	//List<Sommet> listSommets = null;
+	List<Sommet> listSommets = new ArrayList<Sommet>();
 	public List<Sommet> getSommets() {
+		List<Sommet> listSommets = new ArrayList<Sommet>();
 		// Graphe graphe = (Graphe) resource.getContents().get(0);
 		for (int i = 0; i <= g.getSommet().size() - 1; i++) {
 			if (g.getSommet().get(i) instanceof Sommet) {
@@ -82,7 +84,7 @@ public class test {
 		return listSommets;
 	}
 
-	List<Sommet> listSuperSommets = null;
+	List<Sommet> listSuperSommets = new ArrayList<Sommet>();
 	Graphe g;
 /**/
 	public List<Sommet> getSuperSommets(Sommet s) {
@@ -107,10 +109,10 @@ public class test {
 	}
 
 	// Liste des sommets par type de relation.
-	List<Sommet> listAsso = null;
-	List<Sommet> listAggr = null;
-	List<Sommet> listComp = null;
-	List<List<Sommet>> listRelation = null;
+	List<Sommet> listAsso = new ArrayList<Sommet>();
+	List<Sommet> listAggr = new ArrayList<Sommet>();
+	List<Sommet> listComp = new ArrayList<Sommet>();
+	List<List<Sommet>> listRelation = new ArrayList<List<Sommet>>();
 	public List<List<Sommet>> getSommetParType(Sommet s) {
 		for(Sommet i:listSommets){
 			for(int j =0;j<g.getArc().size();j++){
