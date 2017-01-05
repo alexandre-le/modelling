@@ -1,6 +1,5 @@
 package test;
 
-
 import java.util.ArrayList;
 import java.util.List;
 
@@ -38,25 +37,42 @@ import org.eclipse.uml2.uml.Operation;
 
 public class test {
 
-	public void main(String[] args) {
-		Resource resource = chargerModele("model/Test1.xmi", TP3Package.eINSTANCE);
+	public static void main(String[] args) {
+		// Chargement du modèle Test2
+		Resource resource = chargerModele("model/Test2.xmi", TP3Package.eINSTANCE);
 		if (resource == null)
 			System.err.println(" Erreur de chargement du modèle");
 
 		Graphe g = (Graphe) resource.getContents().get(0);
-		
-		// Toutes les classes d'un modèle donné
 
-		System.out.println(g.getSommet());
+		// Liste des sommets du modèle Test2
+		System.out.println("Liste des sommets du modèle Test2 : " + getAllSommets(g));
+
+		
+		for(int i = 0;i<g.getArc().size();i++){
+			System.out.println(g.getArc().get(i).getType().toString()+" Source : " + g.getArc().get(i).getSource().toString() + " Destination : "+ g.getArc().get(i).getDestination().toString());
+		}
+		
+		
+		System.out.println(getSuperSommets(g.getSommet().get(0), g));
+		//System.out.println(g.getArc().get(1).getDestination());
+		//System.out.println(getSuperSommets(g.getSommet().get(1)));
+		Resource resource3 = chargerModele("model/Test3.xmi", TP3Package.eINSTANCE);
+		if (resource3 == null)
+			System.err.println(" Erreur de chargement du modèle");
+		Graphe g3=(Graphe) resource3.getContents().get(0);
+		System.out.println("Liste des sommets du modèle Test3 : " + getAllSommets(g3));
+		
 	}
 
 	static TP3Factory graphe_init = null;
 	static Graphe grapheG = null;
+
 	public static Resource chargerModele(String uri, EPackage pack) {
 		Resource resource = null;
 		try {
 			URI uriUri = URI.createURI(uri);
-			Resource.Factory.Registry.INSTANCE.getExtensionToFactoryMap().put("uml", new XMIResourceFactoryImpl());
+			Resource.Factory.Registry.INSTANCE.getExtensionToFactoryMap().put("xmi", new XMIResourceFactoryImpl());
 			resource = (new ResourceSetImpl()).createResource(uriUri);
 			XMLResource.XMLMap xmlMap = new XMLMapImpl();
 			xmlMap.setNoNamespacePackage(pack);
@@ -67,15 +83,26 @@ public class test {
 			System.err.println("ERREUR chargement du modèle : " + e);
 			e.printStackTrace();
 		}
-		grapheG = graphe_init.createGraphe();
+		//grapheG = graphe_init.createGraphe();
 		return resource;
 	}
+	
+	//static ArrayList<String> listS = new ArrayList<String>();
+	
+	// Renvoie la liste des sommets dans un tableau de chaînes de caractères
+	public static ArrayList<String> getAllSommets(Graphe graph){
+		ArrayList<String> listSummit = new ArrayList<String>();
+		for(int i=0;i<graph.getSommet().size();i++){
+			listSummit.add(graph.getSommet().get(i).getName());
+		}
+		return listSummit;
+	}
 
-	//List<Sommet> listSommets = null;
-	List<Sommet> listSommets = new ArrayList<Sommet>();
-	public List<Sommet> getSommets() {
+	// List<Sommet> listSommets = null;
+	static List<Sommet> listSommets = new ArrayList<Sommet>();
+
+	public static List<Sommet> getSommets(Graphe g) {
 		List<Sommet> listSommets = new ArrayList<Sommet>();
-		// Graphe graphe = (Graphe) resource.getContents().get(0);
 		for (int i = 0; i <= g.getSommet().size() - 1; i++) {
 			if (g.getSommet().get(i) instanceof Sommet) {
 				listSommets.add(g.getSommet().get(i));
@@ -84,51 +111,44 @@ public class test {
 		return listSommets;
 	}
 
-	List<Sommet> listSuperSommets = new ArrayList<Sommet>();
-	Graphe g;
-/**/
-	public List<Sommet> getSuperSommets(Sommet s) {
-		/*
-		 * Resource resource = chargerModele("model/model2.uml",
-		 * TP3Package.eINSTANCE); if (resource == null)
-		 * System.err.println(" Erreur de chargement du modèle"); Graphe g =
-		 * (Graphe) resource.getContents().get(0);
-		 */		
-		for (Sommet i : listSommets) {
-			Sommet superSomm;
-			for (int j = 0; j <= g.getArc().size() - 1; j++) {
-				if (i.equals(s) && g.getArc().get(j).getDestination().equals(s)
-						&& g.getArc().get(j).getType().equals(Type.HÉRITAGE)) {
-					superSomm = g.getArc().get(j).getSource();
-					listSuperSommets.add(superSomm);
-				}
+	static Graphe g;
 
+	/**/
+	public static List<Sommet> getSuperSommets(Sommet s,Graphe g) {
+		List<Sommet> listSuperSommets = new ArrayList<Sommet>();
+			for (int j = 0; j <= g.getArc().size() - 1; j++) {
+				// A changer : ASSOCIATION par HERITAGE 
+				if (g.getArc().get(j).getDestination().equals(s) && g.getArc().get(j).getType().equals(Type.ASSOCIATION)) {
+						listSuperSommets.add(g.getArc().get(j).getSource());
+					}
 			}
-		}
-		return listSuperSommets;
+			return listSuperSommets;
 	}
+		
+	
 
 	// Liste des sommets par type de relation.
-	List<Sommet> listAsso = new ArrayList<Sommet>();
-	List<Sommet> listAggr = new ArrayList<Sommet>();
-	List<Sommet> listComp = new ArrayList<Sommet>();
-	List<List<Sommet>> listRelation = new ArrayList<List<Sommet>>();
-	public List<List<Sommet>> getSommetParType(Sommet s) {
-		for(Sommet i:listSommets){
-			for(int j =0;j<g.getArc().size();j++){
-				if(i.equals(s) && g.getArc().get(j).getDestination().equals(i)){
-					if(g.getArc().get(j).getType().equals(Type.ASSOCIATION)){
+	
+
+	public static List<List<Sommet>> getSommetParType(Sommet s) {
+		List<Sommet> listAsso = new ArrayList<Sommet>();
+		List<Sommet> listAggr = new ArrayList<Sommet>();
+		List<Sommet> listComp = new ArrayList<Sommet>();
+		List<List<Sommet>> listRelation = new ArrayList<List<Sommet>>();
+		for (Sommet i : listSommets) {
+			for (int j = 0; j < g.getArc().size(); j++) {
+				if (i.equals(s) && g.getArc().get(j).getDestination().equals(i)) {
+					if (g.getArc().get(j).getType().equals(Type.ASSOCIATION)) {
 						listAsso.add(g.getArc().get(j).getSource());
-					}
-					else if(g.getArc().get(j).getType().equals(Type.AGGRÉGATION)){
+					} else if (g.getArc().get(j).getType().equals(Type.AGGRÉGATION)) {
 						listAggr.add(g.getArc().get(j).getSource());
-					}else if(g.getArc().get(j).getType().equals(Type.COMPOSITION)){
+					} else if (g.getArc().get(j).getType().equals(Type.COMPOSITION)) {
 						listComp.add(g.getArc().get(j).getSource());
 					}
 				}
-			listRelation.add(listAsso);
-			listRelation.add(listAggr);
-			listRelation.add(listComp);
+				listRelation.add(listAsso);
+				listRelation.add(listAggr);
+				listRelation.add(listComp);
 			}
 		}
 		return listRelation;
